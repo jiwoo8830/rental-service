@@ -38,7 +38,7 @@ export default function RootLayout({
           </div>
           <div className="link-3">
             <Link href="/"><Search/></Link>
-            <Link href="/"><User/></Link>
+            <Link href="/login"><User/></Link>
           </div>
         </div>
         {children}
