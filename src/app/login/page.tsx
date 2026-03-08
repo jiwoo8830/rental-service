@@ -59,7 +59,13 @@ export default function Login() {
             
             <hr />
 
-            <button onClick={()=> signIn('google', { callbackUrl:'/'})}>구글</button>
+            <button onClick={()=> signIn('google', { callbackUrl:'/'})}>
+                <img 
+                    src="https://authjs.dev/img/providers/google.svg" 
+                    alt="Google Logo" 
+                    className="w-5 h-5 mr-3" 
+                    />
+            </button>
 
             <div className="signup-link">
                 <Link href="/signup">signup</Link>

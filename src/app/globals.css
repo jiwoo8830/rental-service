@@ -125,18 +125,3 @@
     color: gray;
 }
 
-.login-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 150px 50px;
-    border: 1px solid gray;
-    border-radius: 7px;
-    gap:20px;
-}
-
-.login-box-1 {
-    flex-direction: column;
-    gap: 5px;
-}
