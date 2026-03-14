@@ -10,6 +10,7 @@ export default function Login() {
         const [email, setEmail] = useState("")
         const [password, setPassword] = useState("")
         const [error, setError] = useState("")
+        const [isLoading, setIsLoading] = useState(false)
         
         const router = useRouter()
 
@@ -17,7 +18,8 @@ export default function Login() {
             e.preventDefault()
 
             setError("")
-
+            setIsLoading(true)
+        try{
             const result = await signIn("credentials", {
                 email: email,
                 password: password,
@@ -31,14 +33,19 @@ export default function Login() {
                 router.push("/")
                 router.refresh()
             }
+        } catch(err) {
+            setError("오류 발생")
+        } finally {
+            setIsLoading(false)
         }
+    }
 
     
     return(
 
         <div className="login-container">
 
-            <form className="login-box">
+            <form className="login-box" onSubmit={handleSubmit}>
                 <div className="login-box-1">
                     <input type="email" 
                            placeholder="이메일" 
@@ -49,17 +56,20 @@ export default function Login() {
                            placeholder="비밀번호" 
                            value={password} 
                            onChange={(e)=> 
-                           setPassword(e.target.value)}/>
+                           setPassword(e.target.value)}
+                           required/>
                 </div>
                     
                     {error &&<p className="error-message">{error}</p>}
 
-                <button type="submit">로그인</button>
+                <button type="submit" disabled={isLoading}>{isLoading ? "로그인 중..." : "로그인"}</button>
             </form>
             
             <hr />
 
-            <button onClick={()=> signIn('google', { callbackUrl:'/'})}>구글</button>
+            <button onClick={()=> signIn('google', { callbackUrl:'/'})}>
+                
+            </button>
 
             <div className="signup-link">
                 <Link href="/signup">signup</Link>
