@@ -45,8 +45,10 @@ export default function Login() {
 
         <div className="login-container">
 
-            <form className="login-box" onSubmit={handleSubmit}>
-                <div className="login-box-1">
+            <div className="login-box">
+                <h2>로그인</h2>
+                <form className="login-form" onSubmit={handleSubmit}>
+                    <div className="login-input">
                     <input type="email" 
                            placeholder="이메일" 
                            value={email} 
@@ -58,22 +60,25 @@ export default function Login() {
                            onChange={(e)=> 
                            setPassword(e.target.value)}
                            required/>
-                </div>
-                    
+                    </div>
+                
                     {error &&<p className="error-message">{error}</p>}
 
-                <button type="submit" disabled={isLoading}>{isLoading ? "로그인 중..." : "로그인"}</button>
-            </form>
+                <button type="submit" className="submit-btn" disabled={isLoading}>{isLoading ? "로그인 중..." : "로그인"}</button>
+                </form>
             
-            <hr />
+                {/* <div className="divider">
+                    <span>OR</span>
+                </div>
 
-            <button onClick={()=> signIn('google', { callbackUrl:'/'})}>
-                
-            </button>
+            <button type="button" className="google-btn" onClick={()=> signIn('google', { callbackUrl:'/'})}>
+                구글
+            </button> */}
 
             <div className="signup-link">
                 <Link href="/signup">signup</Link>
             </div>
+          </div>
         </div>
     )
 }
