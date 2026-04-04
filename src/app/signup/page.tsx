@@ -3,6 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 
+
 export default function Signup() {
     const [email, setEmail] = useState("")
     const [code, setCode] = useState("")
@@ -15,19 +16,43 @@ export default function Signup() {
     const [ isEmailVerified, setIsEmailVerified] = useState(false)
     const [ message, setMessage] = useState("")
 
-    //임시 인증번호 발송 함수
-    const handleSendCode = () => {
-        if (!email) return alert("이메일을 입력해주세요.")
-            setIsCodeSent(true)
-            setMessage("인증번호가 발송되었습니다.")
+
+    const handleSendCode = async () => {
+        if (!email) return alert("이메일을 입력해주세요.");
+        try {
+            const response = await fetch("/api/auth/email-verifications", {
+                method: "POST",
+                headers: { "Content-Type" : "application/json"},
+                body: JSON.stringify({ email }),
+            });
+            if (response.ok) {
+                setIsCodeSent(true);
+                setMessage("인증번호 발송");
+            } else {
+                setMessage("발송에 실패했습니다.");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+            
     }
-    //임시 인증번호 확힌 함수
-    const handleVerifyCode = ()=>{
-        if (code === "1234") {
-            setIsEmailVerified(true)
-            setMessage("이메일 인증이 완료되었습니다.")
-        } else {
-            setMessage("인증번호가 일치하지 않습니다.")
+
+    const handleVerifyCode = async ()=>{
+        if (!code) return alert("코드를 입력해주세요");
+        try {
+            const response = await fetch("/api/auth/email-verifications-verify", {
+                method: "POST",
+                headers: { "Content-Type" : "application/json"},
+                body: JSON.stringify({ email, code }),
+            });
+            if(response.ok) {
+                setIsEmailVerified(true);
+                setMessage("인증완료");
+            } else {
+                setMessage("인증실패");
+            }
+        }   catch (error) {
+            console.error("Error", error);
         }
     }
 
