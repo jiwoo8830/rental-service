@@ -10,6 +10,7 @@ export default function Login() {
         const [email, setEmail] = useState("")
         const [password, setPassword] = useState("")
         const [error, setError] = useState("")
+        const [isLoading, setIsLoading] = useState(false)
         
         const router = useRouter()
 
@@ -17,7 +18,8 @@ export default function Login() {
             e.preventDefault()
 
             setError("")
-
+            setIsLoading(true)
+        try{
             const result = await signIn("credentials", {
                 email: email,
                 password: password,
@@ -31,15 +33,22 @@ export default function Login() {
                 router.push("/")
                 router.refresh()
             }
+        } catch(err) {
+            setError("오류 발생")
+        } finally {
+            setIsLoading(false)
         }
+    }
 
     
     return(
 
         <div className="login-container">
 
-            <form className="login-box">
-                <div className="login-box-1">
+            <div className="login-box">
+                <h2>로그인</h2>
+                <form className="login-form" onSubmit={handleSubmit}>
+                    <div className="login-input">
                     <input type="email" 
                            placeholder="이메일" 
                            value={email} 
@@ -49,27 +58,20 @@ export default function Login() {
                            placeholder="비밀번호" 
                            value={password} 
                            onChange={(e)=> 
-                           setPassword(e.target.value)}/>
-                </div>
-                    
+                           setPassword(e.target.value)}
+                           required/>
+                    </div>
+                
                     {error &&<p className="error-message">{error}</p>}
 
-                <button type="submit">로그인</button>
-            </form>
+                <button type="submit" className="submit-btn" disabled={isLoading}>{isLoading ? "로그인 중..." : "로그인"}</button>
+                </form>
             
-            <hr />
-
-            <button onClick={()=> signIn('google', { callbackUrl:'/'})}>
-                <img 
-                    src="https://authjs.dev/img/providers/google.svg" 
-                    alt="Google Logo" 
-                    className="w-5 h-5 mr-3" 
-                    />
-            </button>
 
             <div className="signup-link">
                 <Link href="/signup">signup</Link>
             </div>
+          </div>
         </div>
     )
 }
