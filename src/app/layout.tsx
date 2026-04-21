@@ -33,7 +33,7 @@ export default function RootLayout({
             <Link href="/"><Package/>물물대여</Link>
           </div>
           <div className="link-2">
-            <Link href="/">물건 둘러보기</Link>
+            <Link href="/listup">물건 둘러보기</Link>
             <Link href="/">내 물건</Link>
           </div>
           <div className="link-3">
