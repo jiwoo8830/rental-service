@@ -6,12 +6,16 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
-        source: "/api/auth/:path*",
-        destination: "http://43.203.172.52:8080/api/auth/:path*",
+        source: "/api/auth/email-verifications",
+        destination: "http://13.125.229.197:8080/api/auth/email-verifications",
+      },
+      {
+        source: "/api/auth/email-verifications-verify",
+        destination: "http://13.125.229.197:8080/api/auth/email-verifications-verify",
       },
       {
         source: "/api/users/:path*",
-        destination: "http://43.203.172.52:8080/api/users/:path*",
+        destination: "http://13.125.229.197:8080/api/users/:path*",
       },
     ];
   },

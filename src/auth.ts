@@ -12,13 +12,32 @@ export const {handlers, auth, signIn, signOut} =
                          password: { label: "Password", type: "password"}
             },
                 async authorize(credentials) {
-                    if(credentials?.email === "test@test.com" && 
-                        credentials?.password === "1111") {
+                    if(credentials?.email || !credentials?.password) 
+                    return null;
+
+                    try {
+                        const res = await fetch("NEXT_PUBLIC_API_URL" , {
+                            method: 'POST',
+                            body: JSON.stringify({
+                                email: credentials.email,
+                                passsword: credentials.password,
+                            }),
+                            headers:{ "Content-Type" : "application/json"}
+                        });
+                        const user = await res.json();
+
+                        if (res.ok && user) {
                             return {
-                             id: "1", name: "tester", email: "test@test.com"
+                                id: user.id || user.userId,
+                                name: user.name || user.nickname,
+                                email: user.email,
+                            };
                         }
+                        return null;
+                    } catch (error) {
+                        console.error("Login Error", error);
+                        return null;
                     }
-                    return null
             }
             })
            
