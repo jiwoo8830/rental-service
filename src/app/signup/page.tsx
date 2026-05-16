@@ -68,13 +68,13 @@ export default function Signup() {
         const signupData = {
             email: email,
             password: password,
-            name: nickname // Swagger 명세에 맞춘 'name' 필드
+            name: nickname 
         };
 
         console.log("회원가입 전송 데이터:", signupData);
 
         try {
-            const response = await fetch("/api/users/register", {
+            const response = await fetch("/api/auth/register", {
                 method: "POST",
                 headers: { 
                     "Content-Type": "application/json",

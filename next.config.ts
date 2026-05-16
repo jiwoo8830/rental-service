@@ -14,6 +14,10 @@ const nextConfig: NextConfig = {
         destination: "http://13.125.229.197:8080/api/auth/email-verifications-verify",
       },
       {
+        source: "/api/auth/:path*",
+        destination: "http://13.125.229.197:8080/api/auth/:path*",
+      },
+      {
         source: "/api/users/:path*",
         destination: "http://13.125.229.197:8080/api/users/:path*",
       },

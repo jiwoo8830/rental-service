@@ -45,9 +45,8 @@ export default async function RootLayout({
           </div>
           <div className="link-3">
             <Link href="/"><Search/></Link>
-            {session ? (
-              <span
-                className="user-name">{sessionStorage.user?.name}님</span>
+            {session?.user ? (
+              <span className="user-name">{session.user.name}님</span>
             ) : (
               <Link href="/login"><User/></Link>
             )}
