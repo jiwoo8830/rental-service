@@ -32,7 +32,7 @@ export default async function RootLayout({
     const session = await auth();
   
     return (
-    <html lang="ko">
+    <html lang="ko" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       > <div className="nav-bar">
