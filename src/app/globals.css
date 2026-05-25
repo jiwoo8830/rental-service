@@ -256,3 +256,76 @@ input:focus {
     color: black;
 }
 
+/* List up css */
+
+.Lu-main {
+    max-width: 90%;
+    margin: 0 auto;
+}
+
+.head-nav {
+    margin-top: 110px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-form {
+    min-width: 40%;
+    background-color: #ECECF0;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    padding: 1px 10px;
+}
+
+.S-search-icon {
+    font-size: px;
+    color: gray;
+}
+
+.search-input {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    flex: 1;
+    height: 40px;
+}
+
+.categories {
+    display: flex;
+    margin-top: 15px;
+    gap: 10px;
+    overflow-x: auto;
+}
+
+.categories-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 6px;
+    background: none;
+    border: 1px solid rgb(175, 175, 175);
+    border-radius: 6px;
+}
+
+.categories :hover {
+    background-color: #ECECF0;
+    transition: 0.2s;
+}
+
+.categories-btn span {
+    font-size: 14px;
+}
+
+.item-count {
+    margin-top: 30px;
+    margin-bottom: 16px;
+    color: rgb(175, 175, 175);
+}
+
+.item-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}

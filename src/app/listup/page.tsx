@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { useState } from "react"
+import { Search } from 'lucide-react'
 
 export default function Listup() {
 
@@ -48,22 +49,25 @@ const [selectedCategory, setSelectedCategory] = useState('전체');
 const [searchQuery, setSearchQuery] = useState('') ;
 
     return(
-        <main>
-            <section>
-                <form onSubmit={(e) => e.preventDefault()}>
+        <main className="Lu-main">
+            <section className="head-nav">
+                <form onSubmit={(e) => e.preventDefault()}
+                      className="search-form"                  
+                  >
+                <Search className="S-search-icon"/>
                 <input 
                     type="search" 
                     placeholder="어떤 물건을 찾으시나요?" 
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
+                    className="search-input"
                 />
-                <button type="submit">검색</button>
                 </form>
             </section>
             
             <nav className="categories">
                 {categories.map((item) => (
-                    <button key={item.id}
+                    <button key={item.id} className="categories-btn"
                             onClick={()=> setSelectedCategory(item.name)}>
                                 <span>{item.icon}</span>
                                 <span>{item.name}</span>
@@ -73,23 +77,23 @@ const [searchQuery, setSearchQuery] = useState('') ;
             </nav>
 
             <section>
-                <p>{mockItems.length}개의 물건을 찾았습니다</p>
+                <p className="item-count">{mockItems.length}개의 물건을 찾았습니다.</p>
         
-        <div>
+        <div className="item-grid">
           {mockItems.map((item) => (
-            <article key={item.id}>
+            <article key={item.id} className="item-card">
 
-              <div>이미지 영역</div>
+              <div className="card-img">이미지 영역</div>
               
 
-              <div>
-                <h3>{item.title}</h3>
-                <p>{item.description}</p>
-                <strong>{item.price}원 / 일</strong>
+              <div className="card-content">
+                <h3 className="card-title">{item.title}</h3>
+                <p className="card-desription">{item.description}</p>
+                <strong className="card-price">{item.price}원 / 일</strong>
                 
-                <div>
-                  <span>위치: {item.location}</span>
-                  <span>별점: {item.rating}</span>
+                <div className="card-footer">
+                  <span className="card-location">위치: {item.location}</span>
+                  <span className="card-rating">별점: {item.rating}</span>
                 </div>
               </div>
             </article>
