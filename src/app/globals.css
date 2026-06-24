@@ -336,6 +336,70 @@ input:focus {
 .item-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.item-card {
+    border: 1px solid rgb(175, 175, 175);
+    border-radius: 6px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: 0.2s;
+}
+
+.item-card:hover {
+    transform: translateY(-4px);
+}
+
+.item-img {
+    width: 100%;
+}
+
+.item-img-card {
+    width: 100%;
+    height: 200px;
+    background-color: gray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.card-content {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.card-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.card-desription {
+    color: gray;
+}
+
+.card-price {
+    display: flex;
+    margin-top: 5px;
+}
+
+.card-price p {
+    margin-left: 3px;
+    color: gray;
+}
+
+.card-footer {
+    display: flex;
+    margin-top: auto;
+    justify-content: space-between;
+    align-items: center;
+    color: gray;
+    padding-top: 5px;
+    margin-bottom: 5px;
 }
 
 /* ---------myitem---------- */
