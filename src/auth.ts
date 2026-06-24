@@ -28,14 +28,14 @@ export const { handlers, auth, signIn, signOut } =
               },
             });
 
-            const text = await res.text();
-
             console.log("백엔드 상태코드:", res.status);
-            console.log("백엔드 원본 응답:", text);
 
             if (!res.ok) {
               return null;
             }
+
+            const text = await res.text();
+            console.log("백엔드 원본 응답:", text);
 
             let result;
             try {
@@ -52,10 +52,15 @@ export const { handlers, auth, signIn, signOut } =
               return null;
             }
 
+            // 백엔드가 응답 헤더로 전달한 Set-Cookie 값(JSESSIONID 등 세션 정보)을 추출합니다.
+            const backendCookie = res.headers.get("Set-Cookie") || "";
+
+            // NextAuth 세션에 저장할 수 있도록 backendCookie를 반환 객체에 추가합니다.
             return {
               id: String(user.id),
               name: user.name,
               email: user.email,
+              backendCookie: backendCookie,
             };
           } catch (error) {
             console.error("Login Error:", error);
@@ -70,6 +75,22 @@ export const { handlers, auth, signIn, signOut } =
     },
     session: {
       strategy: "jwt",
+    },
+    callbacks: {
+      // 로그인 성공 시 및 세션 검증 시 토큰에 백엔드 쿠키를 주입합니다.
+      async jwt({ token, user }) {
+        if (user) {
+          token.backendCookie = (user as any).backendCookie;
+        }
+        return token;
+      },
+      // 클라이언트(프론트엔드)에서 session() 호출 시 백엔드 쿠키를 세션에 포함시킵니다.
+      async session({ session, token }) {
+        if (session.user) {
+          (session as any).backendCookie = token.backendCookie;
+        }
+        return session;
+      },
     },
     debug: true,
   });

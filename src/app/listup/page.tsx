@@ -88,7 +88,7 @@ const [searchQuery, setSearchQuery] = useState('') ;
 
               <div className="card-content">
                 <h3 className="card-title">{item.title}</h3>
-                <p className="card-desription">{item.description}</p>
+                <p className="card-description">{item.description}</p>
                 <strong className="card-price">{item.price}원 / 일</strong>
                 
                 <div className="card-footer">

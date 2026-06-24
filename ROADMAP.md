@@ -49,12 +49,19 @@
 ### 🔄 7단계: 회원가입 완료 로직 및 최종 테스트 (진행 중)
 - [x] DB 스키마 설계 (User 테이블: email, name, password 등)
 - [ ] 로그인 후 세션 유지 및 사용자 이름 표시 오류 수정 ⬅️ NEXT PRIORITY
+- [x] **물건 등록 페이지 (`/additem`) 구현 및 스타일링**
+  - [x] 기본 폼 구조 및 상태(State) 정의 완료 (`title`, `description`, `price`, `location` 등)
+  - [x] `useRouter` 임포트 경로 수정 (`next/navigation`)
+  - [x] `price` 필드 타입 오류 해결 (`number | string` 유니온 타입 적용)
+  - [x] 카테고리 선택 UI 구현
+  - [x] API 연동 로직 구현 (`/api/products/register` Route Handler 및 쿠키 포워딩 적용)
+  - [x] 상품 상태 선택 UI 추가 및 `additem` CSS 스타일링 적용
 - [ ] 최종 테스트 및 예외 처리
 - [ ] 카테고리 선택에 따른 필터링 로직 구현
 - [ ] 검색어 입력에 따른 실시간/검색 필터링 구현
 - [ ] 상세 페이지 연결 및 UI 스타일링 (CSS)
 
-### 🔄 7단계: 회원가입 완료 로직 및 최종 테스트 (진행 예정)
-- [ ] DB 스키마 설계 (User 테이블: email, nickname, password 등)
-- [ ] 비밀번호 해싱 (bcrypt) 및 회원가입 API 구현
-- [ ] 최종 테스트 및 예외 처리
+---
+## ⚠️ 개발 원칙
+- 사용자의 명시적 요청이 없는 한 코드를 직접 수정하지 않음.
+- **CSS 스타일링은 무조건 별도 CSS 파일에서 코딩함 (Inline Style 지양)**

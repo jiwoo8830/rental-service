@@ -22,9 +22,10 @@
     display: flex;
 }
 
-.link-2, .link-3 {
+.link-2,
+.link-3 {
     display: flex;
-    gap:20px;
+    gap: 20px;
 }
 
 .section-1 {
@@ -35,7 +36,7 @@
     padding: 120px 0;
     gap: 30px;
     text-align: center;
-    background : linear-gradient(to bottom, #ECECF0, #ffffff);
+    background: linear-gradient(to bottom, #ECECF0, #ffffff);
 }
 
 .hsi-3 {
@@ -125,12 +126,13 @@
     color: gray;
 }
 
-.login-container, .signup-container {
+.login-container,
+.signup-container {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: linear-gradient(to bottom,#ECECF0,#ffffff);
+    background-color: linear-gradient(to bottom, #ECECF0, #ffffff);
     padding: 20px;
 }
 
@@ -140,7 +142,8 @@
     align-items: center;
 }
 
-.login-box ,.signup-box {
+.login-box,
+.signup-box {
     background-color: white;
     padding: 40px;
     border-radius: 12px;
@@ -152,7 +155,8 @@
     gap: 20px;
 }
 
-.login-box h2, .signup-box h2 {
+.login-box h2,
+.signup-box h2 {
     text-align: center;
     font-size: 20px;
     margin-bottom: 10px;
@@ -171,7 +175,8 @@ input:focus {
     border-color: black;
 }
 
-.info-group, .login-input {
+.info-group,
+.login-input {
     flex-direction: column;
     display: flex;
     gap: 12px;
@@ -187,7 +192,7 @@ input:focus {
 }
 
 .input-group button {
-    padding:  0 15px;
+    padding: 0 15px;
     background: white;
     border: 1px solid gray;
     border-radius: 6px;
@@ -208,14 +213,16 @@ input:focus {
     align-self: center;
 }
 
-.signup-link, .login-link {
+.signup-link,
+.login-link {
     text-align: center;
     font-size: 14px;
     color: gray;
     margin-top: 10px;
 }
 
-.signup-link a, .login-link a {
+.signup-link a,
+.login-link a {
     color: black;
     font-weight: bold;
     text-decoration: underline;
@@ -234,7 +241,8 @@ input:focus {
 
 .password-input-wrapper input {
     width: 100%;
-    padding-right: 45px; /* 버튼 공간 확보 */
+    padding-right: 45px;
+    /* 버튼 공간 확보 */
 }
 
 .password-toggle {
@@ -328,4 +336,131 @@ input:focus {
 .item-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+}
+
+/* ---------myitem---------- */
+
+.myitem {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.my-header {
+    display: flex;
+    width: 80%;
+    margin: 0 auto;
+    flex-direction: column;
+    margin-top: 110px;
+}
+
+.my-title {
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.my-btn-container {
+    display: flex;
+    justify-content: end;
+    margin-top: 10px;
+}
+
+.my-btn {
+    border: 1px solid black;
+    border-radius: 6px;
+    background-color: black;
+    padding: 6px;
+    color: white;
+}
+
+.my-btn :hover {
+    background-color: gray;
+    transition: 0.2s;
+}
+
+.my-items {
+    margin-top: 30px;
+}
+
+/* ------------additem----------- */
+
+.additem-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    margin-top: 100px;
+}
+
+.additem-container form {
+    border-radius: 12px;
+    border: 1px solid gray;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.additem-container h2 {
+    text-align: center;
+    font-weight: bold;
+}
+
+.additem-box {
+    padding: 12px;
+    border: 1px solid gray;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+}
+
+.additem-box:focus {
+    border-color: black;
+}
+
+.categories-ui,
+.status-ui {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.category-title,
+.status-title {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.category-select,
+.status-select {
+    padding: 12px;
+    border: 1px solid gray;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+}
+
+.category-select:focus,
+.status-select:focus {
+    border-color: black;
+}
+
+.additem-container button {
+    padding: 12px;
+    border: 1px solid black;
+    border-radius: 6px;
+    background-color: black;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.additem-container button:hover {
+    background-color: gray;
 }

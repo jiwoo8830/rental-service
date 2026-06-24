@@ -41,7 +41,7 @@ export default async function RootLayout({
           </div>
           <div className="link-2">
             <Link href="/listup">물건 둘러보기</Link>
-            <Link href="/">내 물건</Link>
+            <Link href="/myitem">내 물건</Link>
           </div>
           <div className="link-3">
             <Link href="/"><Search/></Link>

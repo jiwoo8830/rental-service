@@ -9,8 +9,8 @@ export default function Home() {
         <div>이웃과 함께하는<br/>스마트한 물건 대여</div>
         <div>필요한 물건을 빌리고, 쓰지 않는 물건을 대여해주세요.<br/>서로 돕는 공유 경제를 경험하세요.</div>
         <div className="hsi-3">
-            <Link href="/" className="register-btn1"><Search/>물건찾기</Link>
-            <Link href="/">내 물건 등록하기</Link>
+            <Link href="/listup" className="register-btn1"><Search/>물건찾기</Link>
+            <Link href="/myitem" className="register-btn2">내 물건 등록하기</Link>
         </div>
       </section>
       <section className="section-2">
