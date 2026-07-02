@@ -1,6 +1,5 @@
 'use client'
 
-import Link from "next/link"
 import { useState, useEffect } from "react"
 import { Search } from 'lucide-react'
 
@@ -11,7 +10,6 @@ interface Product {
   price: number;
   location: string;
   category: string;
-  // status: string;
 }
 
 export default function Listup() {
@@ -38,7 +36,7 @@ export default function Listup() {
     setError(null);
 
     try {
-      const param = new URLSearchParams();
+      const params = new URLSearchParams();
       if (categoryCode) params.append("category", categoryCode);
       if (keyword) params.append("keyword", keyword);
 

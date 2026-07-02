@@ -80,14 +80,14 @@ export const { handlers, auth, signIn, signOut } =
       // 로그인 성공 시 및 세션 검증 시 토큰에 백엔드 쿠키를 주입합니다.
       async jwt({ token, user }) {
         if (user) {
-          token.backendCookie = (user as any).backendCookie;
+          token.backendCookie = (user as any).backendCookie; // as any 수정
         }
         return token;
       },
       // 클라이언트(프론트엔드)에서 session() 호출 시 백엔드 쿠키를 세션에 포함시킵니다.
       async session({ session, token }) {
         if (session.user) {
-          (session as any).backendCookie = token.backendCookie;
+          (session as any).backendCookie = token.backendCookie;// as any 수정
         }
         return session;
       },

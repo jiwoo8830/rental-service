@@ -4,7 +4,7 @@ import { auth } from "@/auth";
 export async function POST(req: NextRequest) {
   // 1. NextAuth 세션에서 백엔드 로그인 쿠키 획득
   const session = await auth();
-  const backendCookie = (session as any)?.backendCookie;
+  const backendCookie = (session as any)?.backendCookie; // as any 문제점 있음 TypeScript
 
   // 세션이 없거나 백엔드 쿠키가 누락된 경우 401 Unauthorized 반환
   if (!session || !backendCookie) {
