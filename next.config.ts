@@ -21,6 +21,14 @@ const nextConfig: NextConfig = {
         source: "/api/users/login",
         destination: "http://13.125.229.197:8080/api/users/login",
       },
+      {
+        source: "/api/products",
+        destination: "http://13.125.229.197:8080/api/products",
+      },
+      {
+        source: "/api/products/register",
+        destination: "http://13.125.229.197:8080/api/products/register",
+      },
     ];
   },
 };
