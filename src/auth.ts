@@ -75,6 +75,7 @@ export const { handlers, auth, signIn, signOut } =
     },
     session: {
       strategy: "jwt",
+      maxAge: 3 * 60 * 60,
     },
     callbacks: {
       // 로그인 성공 시 및 세션 검증 시 토큰에 백엔드 쿠키를 주입합니다.

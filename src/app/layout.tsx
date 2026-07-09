@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css" ;
+import "./globals.css";
 import Link from "next/link";
-import { Search, User, Package} from 'lucide-react'
-import {auth} from "@/auth";
+import { Search, User, Package } from 'lucide-react'
+import { SessionProvider } from "next-auth/react";
+import { auth, signOut } from "@/auth";
 
 
 const geistSans = Geist({
@@ -29,30 +30,45 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
 
-    const session = await auth();
-  
-    return (
+  const session = await auth();
+
+  return (
     <html lang="ko" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      > <div className="nav-bar">
-          <div className="link-1">
-            <Link href="/"><Package/>물물대여</Link>
+      >
+        <SessionProvider session={session}>
+          <div className="nav-bar">
+            <div className="link-1">
+              <Link href="/"><Package />물물대여</Link>
+            </div>
+            <div className="link-2">
+              <Link href="/listup">물건 둘러보기</Link>
+              <Link href="/myitem">내 물건</Link>
+            </div>
+            <div className="link-3">
+              <Link href="/"><Search /></Link>
+              {session?.user ? (
+                <div className="user-menu" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                  <span className="user-name">{session.user.name}님</span>
+                  <form action={async () => {
+                    "use server";
+                    await signOut({ redirect: "/" });
+                  }}>
+                    <button type="submit" className="login-btn" style={{
+                      cursor: "pointer", backgroundColor: "none",
+                      border: "none", textDecoration: "underline"
+                    }}>로그아웃</button>
+                  </form>
+
+                </div>
+              ) : (
+                <Link href="/login"><User /></Link>
+              )}
+            </div>
           </div>
-          <div className="link-2">
-            <Link href="/listup">물건 둘러보기</Link>
-            <Link href="/myitem">내 물건</Link>
-          </div>
-          <div className="link-3">
-            <Link href="/"><Search/></Link>
-            {session?.user ? (
-              <span className="user-name">{session.user.name}님</span>
-            ) : (
-              <Link href="/login"><User/></Link>
-            )}
-          </div>
-        </div>
-        {children}
+          {children}
+        </SessionProvider>
       </body>
     </html>
   );

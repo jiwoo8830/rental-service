@@ -40,7 +40,7 @@ export default function Listup() {
       if (categoryCode) params.append("category", categoryCode);
       if (keyword) params.append("keyword", keyword);
 
-      const response = await fetch(`/api/products/${params.toString()}`);
+      const response = await fetch(`/api/products?${params.toString()}`);
       if (!response.ok) {
         throw new Error("상품 목록을 불러오지 못했습니다.");
       }

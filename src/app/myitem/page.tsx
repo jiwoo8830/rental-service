@@ -28,7 +28,7 @@ export default function Myitem() {
         setError(null);
 
         try {
-            const response = await fetch(`/api/product/`); //나중에 재형이한테 api 만들어 달라하기
+            const response = await fetch(`/api/products`); // 임시로 전체 물건 목록 API 사용
 
             if(!response.ok) {
                 throw new Error("내가 등록한 상품이 없습니다.");
@@ -57,9 +57,15 @@ export default function Myitem() {
     }
     
 return (
-    <main className="myproducts-main">
-      <section>
-        
+    <main className="myitem">
+      <header className="my-header">
+        <h2 className="my-title">내가 등록한 물건</h2>
+        <div className="my-btn-container">
+          <Link href="/additem" className="my-btn">물품 등록하기</Link>
+        </div>
+      </header>
+
+      <section className="my-items">
         {loading && <p className="loading-text">로딩 중...</p>}
         {error && <p className="error-text">{error}</p>}
         
