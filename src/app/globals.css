@@ -528,3 +528,9 @@ input:focus {
 .additem-container button:hover {
     background-color: gray;
 }
+
+/* -----detail----- */
+
+.detail-container {
+    margin-top: 100px;
+}
