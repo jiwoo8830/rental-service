@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { Search } from 'lucide-react'
+import Link from 'next/link';
 
 interface Product {
   id: number;
@@ -99,19 +100,21 @@ export default function Listup() {
         {!loading && !error && (
           <div className="item-grid">
             {products.map((item) => (
-              <article key={item.id} className="item-card">
-                <div className="card-img-box">
-                  <img src="data:image/png;base64,..." alt={item.title} />
-                </div>
-                <div className="card-content">
-                  <h3 className="card-title">{item.title}</h3>
-                  <p className="card-desription">{item.description}</p>
-                  <strong className="card-price">{item.price.toLocaleString()}원 / 일</strong>
-                  <div className="card-footer">
-                    <span className="card-location">위치: {item.location}</span>
+              <Link href={`/detail?id=${item.id}`} key={item.id} className="item-card">
+                <article key={item.id} className="item-card">
+                  <div className="card-img-box">
+                    <img src="data:image/png;base64,..." alt={item.title} />
                   </div>
-                </div>
-              </article>
+                  <div className="card-content">
+                    <h3 className="card-title">{item.title}</h3>
+                    <p className="card-desription">{item.description}</p>
+                    <strong className="card-price">{item.price.toLocaleString()}원 / 일</strong>
+                    <div className="card-footer">
+                      <span className="card-location">위치: {item.location}</span>
+                    </div>
+                  </div>
+                </article>
+              </Link>
             ))}
           </div>
         )}
