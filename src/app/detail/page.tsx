@@ -91,7 +91,7 @@ export default function Detail() {
                     throw new Error('상품 정보를 불러오지 못했습니다.');
                 }
                 const result = await response.json();
-                setProduct(result.data); // 임시임시임시
+                setProduct(result.data); // 임시
             } catch (err: any) {
                 setError(err.message || '오류가 발생했습니다.');
             } finally {
@@ -114,10 +114,10 @@ export default function Detail() {
         <main className="detail-container">
 
             <section className="product-info">
-                <h1>{product.title}</h1>
+                <h1 className="product-info-title">{product.title}</h1>
                 <p className="description">{product.description}</p>
                 <p className="price">{product.price.toLocaleString()}원 / 일</p>
-                <p className="location">위치: {product.location}</p>
+                <p className="location">🗺️위치: {product.location}</p>
             </section>
 
             <section className="reservation-action">
@@ -146,7 +146,9 @@ export default function Detail() {
                                         onChange={(e) => setEndDate(e.target.value)} />
                             </label>
                         </div>
-                        
+                        <button onClick={submitReservation} className="confirm-reserve-btn">
+                                예약 확정하기
+                        </button>
                         <button
                             onClick={submitReservation}
                             className="confirm-reserve-btn"

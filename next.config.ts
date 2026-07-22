@@ -30,8 +30,8 @@ const nextConfig: NextConfig = {
         destination: "http://13.125.229.197:8080/api/products/register",
       },
       {
-        source: "/api/products/{productId}",
-        destination: "http://13.125.229.197:8080/api/products/{productId}"
+        source: "/api/products/:productId",
+        destination: "http://13.125.229.197:8080/api/products/:productId"
       },
     ];
   },
