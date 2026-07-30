@@ -531,6 +531,90 @@ input:focus {
 
 /* -----detail----- */
 
+/* ----- 예약 모달 스타일 ----- */
+
+/* 화면 전체를 덮는 반투명 배경 */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+/* 중앙 모달 대화상자 */
+.modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.modal-content h3 {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.date-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.date-inputs label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.confirm-reserve-btn {
+    flex: 1;
+    padding: 10px;
+    background-color: black;
+    color: white;
+    border: 1px solid black;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cancel-reserve-btn {
+    flex: 1;
+    padding: 10px;
+    background-color: white;
+    color: black;
+    border: 1px solid gray;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.confirm-reserve-btn:hover {
+    background-color: #333;
+}
+
+.cancel-reserve-btn:hover {
+    background-color: #f0f0f0;
+}
+
 .detail-container {
     width: 80%;
     margin: 0 auto;

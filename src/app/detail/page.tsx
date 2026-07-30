@@ -27,9 +27,10 @@ export default function Detail() {
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
     const todayString = new Date().toISOString().split('T')[0];
-    
+
     const handleReservation = () => {
-            setShowDatePicker(true);  };
+        setShowDatePicker(true);
+    };
     const submitReservation = async () => {
         if (!startDate || !endDate) {
             alert("시작일과 종료일 모두 선택.")
@@ -40,12 +41,12 @@ export default function Detail() {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
-        if (start<today) {
+        if (start < today) {
             alert("그 날짜는 이미 지난 날짜 입니다.");
             return;
         }
-        
-        if (end<start) {
+
+        if (end < start) {
             alert("시간여행을 하고 계신건가요?")
             return;
         }
@@ -63,7 +64,7 @@ export default function Detail() {
                     endDate,
                 }),
             });
-            
+
             if (!response.ok) {
                 throw new Error('예약 실패했어요ㅠㅠ');
             }
@@ -71,13 +72,13 @@ export default function Detail() {
             const result = await response.json();
             alert('예약 성공!');
             setShowDatePicker(false);
-        } catch (err:any) {
+        } catch (err: any) {
             alert(err.message || '요류 발생 ㅡㅅㅡ');
         } finally {
             setLoading(false);
         }
     };
-    
+
 
     useEffect(() => {
         if (!productId) return;
@@ -106,7 +107,7 @@ export default function Detail() {
     if (error) return <p>{error}</p>;
     if (!product) return <p>상품을 찾을 수 없습니다.</p>;
 
-    
+
 
 
 
@@ -121,45 +122,53 @@ export default function Detail() {
             </section>
 
             <section className="reservation-action">
-                {!showDatePicker ? (
-                    <button onClick={handleReservation} className="reserve-btn">
-                        예약하기
-                    </button>
-                ) : (
-                    <div className="date-picker-box">
-                        <h3>예약 날짜 선택</h3>
-                        <div className="date-inputs">
-                            <label>
-                                시작일 : 
-                                <input 
-                                    type="date"
-                                    value={startDate}
-                                    min={todayString}
-                                    onChange={(e) => setStartDate(e.target.value)} />
-                            </label>
-                            <label>
+
+                <button onClick={handleReservation} className="reserve-btn">
+                    예약하기
+                </button>
+
+                {showDatePicker && (
+                    <div className="modal-overlay" onClick={() => setShowDatePicker(false)}>
+                        <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                            <h3>예약 날짜 선택</h3>
+                            <div className="date-inputs">
+                                <label>
+                                    시작일 :
+                                    <input
+                                        type="date"
+                                        value={startDate}
+                                        min={todayString}
+                                        onChange={(e) => setStartDate(e.target.value)}
+                                    />
+                                </label>
+                                <label>
                                     종료일 :
-                                    <input 
+                                    <input
                                         type="date"
                                         value={endDate}
                                         min={startDate || todayString}
-                                        onChange={(e) => setEndDate(e.target.value)} />
-                            </label>
+                                        onChange={(e) => setEndDate(e.target.value)}
+                                    />
+                                </label>
+                            </div>
+                            <div className="modal-buttons">
+                                <button
+                                    onClick={submitReservation}
+                                    className="confirm-reserve-btn"
+                                    disabled={loading}
+                                >
+                                    {loading ? '처리 중...' : '예약 확정하기'}
+                                </button>
+                                <button
+                                    onClick={() => setShowDatePicker(false)}
+                                    className="cancel-reserve-btn"
+                                >
+                                    취소
+                                </button>
+                            </div>
                         </div>
-                        <button onClick={submitReservation} className="confirm-reserve-btn">
-                                예약 확정하기
-                        </button>
-                        <button
-                            onClick={submitReservation}
-                            className="confirm-reserve-btn"
-                            disabled={loading}
-                        >
-                            취소
-                        </button>
                     </div>
-                )
-
-                }
+                )}
             </section>
         </main>
     );

@@ -50,7 +50,7 @@ export default async function RootLayout({
               <Link href="/"><Search /></Link>
               {session?.user ? (
                 <div className="user-menu" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                  <span className="user-name">{session.user.name}님</span>
+                  <Link href="/mypage" className="user-name">{session.user.name}님</Link>
                   <form action={async () => {
                     "use server";
                     await signOut({ redirect: "/" });
