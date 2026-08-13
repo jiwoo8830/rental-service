@@ -5,58 +5,59 @@ import { useState, useEffect } from "react"
 import { useSession } from "next-auth/react"
 
 interface Product {
-    id: number;
-    title: string;
-    description: string;
-    price: number;
-    location: string;
-    category: string;
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  location: string;
+  category: string;
+  images?: string[];
 }
 
 export default function Myitem() {
-    
-    const { data: session, status } = useSession();
-    
-    const [products, setProducts] = useState<Product[]>([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-    
-    const fetchMyProducts = async () => {
-        if (!session?.user?.email) return;
 
-        setLoading(true);
-        setError(null);
+  const { data: session, status } = useSession();
 
-        try {
-            const response = await fetch(`/api/products`); // 임시로 전체 물건 목록 API 사용
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-            if(!response.ok) {
-                throw new Error("내가 등록한 상품이 없습니다.");
-            }
-            const result = await response.json();
-            setProducts(result.data?.content || result.data || []);  
-        } catch (err: any) {
-            setError(err.message || "오류가 발생했습니다.");
-        } finally {
-            setLoading(false);
-        }
-    };
+  const fetchMyProducts = async () => {
+    if (!session?.user?.email) return;
 
-    useEffect(() => {
-        if (status === "authenticated") {
-            fetchMyProducts();
-        }
-    }, [status]);
+    setLoading(true);
+    setError(null);
 
-    if (status === "loading") {
-        return <p className="loading-text">인증 확인 중...</p>;
+    try {
+      const response = await fetch(`/api/products`); // 임시로 전체 물건 목록 API 사용
+
+      if (!response.ok) {
+        throw new Error("내가 등록한 상품이 없습니다.");
+      }
+      const result = await response.json();
+      setProducts(result.data?.content || result.data || []);
+    } catch (err: any) {
+      setError(err.message || "오류가 발생했습니다.");
+    } finally {
+      setLoading(false);
     }
+  };
 
-    if (status === "unauthenticated") {
-        return <p className="error-text">로그인이 필요한 페이지입니다.</p>;
+  useEffect(() => {
+    if (status === "authenticated") {
+      fetchMyProducts();
     }
-    
-return (
+  }, [status]);
+
+  if (status === "loading") {
+    return <p className="loading-text">인증 확인 중...</p>;
+  }
+
+  if (status === "unauthenticated") {
+    return <p className="error-text">로그인이 필요한 페이지입니다.</p>;
+  }
+
+  return (
     <main className="myitem">
       <header className="my-header">
         <h2 className="my-title">내가 등록한 물건</h2>
@@ -68,7 +69,7 @@ return (
       <section className="my-items">
         {loading && <p className="loading-text">로딩 중...</p>}
         {error && <p className="error-text">{error}</p>}
-        
+
         {!loading && !error && products.length === 0 && (
           <p className="empty-text">아직 등록한 물품이 없습니다.</p>
         )}
@@ -78,7 +79,15 @@ return (
             {products.map((item) => (
               <article key={item.id} className="item-card">
                 <div className="card-img-box">
-                  <img src="data:image/png;base64,..." alt={item.title} />
+                  <img 
+                    src={item.images && item.images.length > 0 && item.images[0] !== "string" ? item.images[0] : "https://via.placeholder.com/150?text=No+Image"} 
+                    alt={item.title} 
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.onerror = null;
+                      target.src = "https://via.placeholder.com/150?text=No+Image";
+                    }}
+                  />
                 </div>
                 <div className="card-content">
                   <h3 className="card-title">{item.title}</h3>

@@ -2,6 +2,11 @@
 
 import { useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
+import { DayPicker, DateRange } from 'react-day-picker'
+import { ko } from 'date-fns/locale'
+import { format, differenceInCalendarDays, eachDayOfInterval } from 'date-fns'
+import 'react-day-picker/style.css'
+import { useRouter } from 'next/navigation'
 
 interface ProductDetail {
     id: number;
@@ -12,49 +17,36 @@ interface ProductDetail {
     category: string;
 }
 
-export default function Detail() { 
+export default function Detail() {
     const searchParams = useSearchParams();
     const productId = searchParams.get('id');
     const [product, setProduct] = useState<ProductDetail | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const router = useRouter();
 
-    //------ 커스텀 달력 모달 상태 -------//
+    //------ react-day-picker 달력 모달 상태 -------//
     const [showDatePicker, setShowDatePicker] = useState(false);
-    const [selectedDates, setSelectedDates] = useState<string[]>([]);
-    const [currentViewDate, setCurrentViewDate] = useState(new Date());
+    const [dateRange, setDateRange] = useState<DateRange | undefined>();
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    const year = currentViewDate.getFullYear();
-    const month = currentViewDate.getMonth();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const startDay = new Date(year, month, 1).getDay();
-
-    const handlePrevMonth = () => setCurrentViewDate(new Date(year, month - 1, 1));
-    const handleNextMonth = () => setCurrentViewDate(new Date(year, month + 1, 1));
-
-    const handleDateClick = (dayNum: number) => {
-        const formattedMonth = String(month + 1).padStart(2, '0');
-        const formattedDay = String(dayNum).padStart(2, '0');
-        const dateStr = `${year}-${formattedMonth}-${formattedDay}`;
-
-        const targetDate = new Date(year, month, dayNum);
-        if (targetDate < today) return;
-
-        if (selectedDates.includes(dateStr)) {
-            setSelectedDates(selectedDates.filter((d) => d !== dateStr));
-        } else {
-            setSelectedDates([...selectedDates, dateStr].sort());
-        }
-    };
+    // 대여 일수 계산
+    const totalDays = dateRange?.from
+        ? differenceInCalendarDays(dateRange.to || dateRange.from, dateRange.from) + 1
+        : 0;
 
     const submitReservation = async () => {
-        if (selectedDates.length === 0) {
-            alert("달력에서 예약할 날짜를 최소 하나 이상 클릭해 주세요.");
+        if (!dateRange?.from) {
+            alert("달력에서 예약할 날짜를 선택해 주세요.");
             return;
         }
+
+        // 선택한 기간의 모든 날짜를 YYYY-MM-DD 배열로 변환
+        const endDate = dateRange.to || dateRange.from;
+        const intervalDates = eachDayOfInterval({ start: dateRange.from, end: endDate });
+        const selectedDates = intervalDates.map((d) => format(d, 'yyyy-MM-dd'));
 
         try {
             setLoading(true);
@@ -64,16 +56,26 @@ export default function Detail() {
                 body: JSON.stringify({
                     productId,
                     reservationDates: selectedDates,
+                    totalPrice: product?.price ? product.price * totalDays : 0,
                 }),
             });
 
             if (!response.ok) {
-                throw new Error('예약에 실패했습니다.');
+                throw new Error('예약 요청에 실패했습니다.');
             }
 
-            alert(`총 ${selectedDates.length}일 예약이 완료되었습니다!`);
+            const result = await response.json();
+            const reservationId = result.data?.id || result.id;
+
             setShowDatePicker(false);
-            setSelectedDates([]);
+            setDateRange(undefined);
+
+            // 결제 페이지로 이동 (reservationId 및 대여 정보 쿼리파라미터 전달)
+            if (reservationId) {
+                router.push(`/payment?reservationId=${reservationId}`);
+            } else {
+                router.push(`/payment?productId=${productId}&from=${format(dateRange.from, 'yyyy-MM-dd')}&to=${format(endDate, 'yyyy-MM-dd')}`);
+            }
         } catch (err: any) {
             alert(err.message || '오류가 발생했습니다.');
         } finally {
@@ -110,95 +112,91 @@ export default function Detail() {
 
     return (
         <main className="detail-container">
-            <section className="product-info">
-                <h1 className="product-info-title">{product.title}</h1>
-                <p className="description">{product.description}</p>
-                <p className="price">{product.price.toLocaleString()}원 / 일</p>
-                <p className="location">🗺️위치: {product.location}</p>
-            </section>
+            <div className="detail-wrapper">
+                <div className="detail-img-box">
+                    {product.images && product.images.length > 0 && product.images[0] !== "string" ? (
+                        <img 
+                            src={product.images[0]} 
+                            alt={product.title} 
+                            onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                target.onerror = null;
+                                target.src = "https://via.placeholder.com/400x350?text=No+Image";
+                            }}
+                        />
+                    ) : (
+                        <span>이미지가 없습니다.</span>
+                    )}
+                </div>
 
-            <section className="reservation-action">
-                <button onClick={() => setShowDatePicker(true)} className="reserve-btn">
-                    예약하기
-                </button>
+                <div className="detail-content-box">
+                    <section className="product-info">
+                        <h1 className="product-info-title">{product.title}</h1>
+                        <p className="description">{product.description}</p>
+                        <p className="price">{product.price.toLocaleString()}원 / 일</p>
+                        <p className="location">🗺️위치: {product.location}</p>
+                    </section>
 
-                {showDatePicker && (
-                    <div className="modal-overlay" onClick={() => setShowDatePicker(false)}>
-                        <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                            <h3 className="calendar-title">대여 날짜 선택</h3>
+                    <section className="reservation-action">
+                        <button onClick={() => setShowDatePicker(true)} className="reserve-btn">
+                            예약하기
+                        </button>
 
-                            {/* 월 이동 헤더 */}
-                            <div className="calendar-month-nav">
-                                <button type="button" onClick={handlePrevMonth} className="month-nav-btn">&lt;</button>
-                                <span className="month-nav-label">{year}년 {month + 1}월</span>
-                                <button type="button" onClick={handleNextMonth} className="month-nav-btn">&gt;</button>
-                            </div>
+                        {showDatePicker && (
+                            <div className="modal-overlay" onClick={() => setShowDatePicker(false)}>
+                                <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                                    <h3 className="calendar-title">대여 기간 선택</h3>
 
-                            {/* 요일 표시 */}
-                            <div className="calendar-weekdays">
-                                {['일', '월', '화', '수', '목', '금', '토'].map((d) => (
-                                    <span key={d} className="weekday-item">{d}</span>
-                                ))}
-                            </div>
+                                    {/* react-day-picker 라이브러리 적용 */}
+                                    <div className="day-picker-container" style={{ display: 'flex', justifyContent: 'center', margin: '15px 0' }}>
+                                        <DayPicker
+                                            mode="range"
+                                            selected={dateRange}
+                                            onSelect={setDateRange}
+                                            locale={ko}
+                                            disabled={{ before: today }}
+                                        />
+                                    </div>
 
-                            {/* 날짜 그리드 */}
-                            <div className="calendar-days-grid">
-                                {Array.from({ length: startDay }).map((_, i) => (
-                                    <div key={`empty-${i}`} />
-                                ))}
+                                    {/* 선택된 기간 및 금액 요약 */}
+                                    <div className="calendar-summary" style={{ textAlign: 'center', marginBottom: '15px' }}>
+                                        {dateRange?.from ? (
+                                            <p>
+                                                선택 기간: <strong>{format(dateRange.from, 'yyyy.MM.dd')}</strong>
+                                                {dateRange.to && ` ~ ${format(dateRange.to, 'yyyy.MM.dd')}`}
+                                                <br />
+                                                총 <strong>{totalDays}일</strong> / 예상 금액: <strong>{(product.price * totalDays).toLocaleString()}원</strong>
+                                            </p>
+                                        ) : (
+                                            <p>대여 시작일과 종료일을 선택해 주세요.</p>
+                                        )}
+                                    </div>
 
-                                {Array.from({ length: daysInMonth }).map((_, i) => {
-                                    const dayNum = i + 1;
-                                    const formattedMonth = String(month + 1).padStart(2, '0');
-                                    const formattedDay = String(dayNum).padStart(2, '0');
-                                    const dateStr = `${year}-${formattedMonth}-${formattedDay}`;
-
-                                    const targetDate = new Date(year, month, dayNum);
-                                    const isPast = targetDate < today;
-                                    const isSelected = selectedDates.includes(dateStr);
-
-                                    return (
+                                    {/* 모달 하단 버튼 */}
+                                    <div className="modal-buttons">
                                         <button
-                                            key={dayNum}
-                                            type="button"
-                                            disabled={isPast}
-                                            onClick={() => handleDateClick(dayNum)}
-                                            className={`day-btn ${isSelected ? 'selected' : ''} ${isPast ? 'past' : ''}`}
+                                            onClick={submitReservation}
+                                            className="confirm-reserve-btn"
+                                            disabled={loading || !dateRange?.from}
                                         >
-                                            {dayNum}
+                                            {loading ? '처리 중...' : totalDays > 0 ? `${totalDays}일 예약하기` : '예약하기'}
                                         </button>
-                                    );
-                                })}
+                                        <button
+                                            onClick={() => {
+                                                setShowDatePicker(false);
+                                                setDateRange(undefined);
+                                            }}
+                                            className="cancel-reserve-btn"
+                                        >
+                                            취소
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-
-                            {/* 선택된 날짜 요약 */}
-                            <p className="calendar-summary">
-                                선택된 날짜: <strong>{selectedDates.length}일</strong>
-                            </p>
-
-                            {/* 모달 하단 버튼 */}
-                            <div className="modal-buttons">
-                                <button
-                                    onClick={submitReservation}
-                                    className="confirm-reserve-btn"
-                                    disabled={loading || selectedDates.length === 0}
-                                >
-                                    {loading ? '처리 중...' : `${selectedDates.length}일 예약하기`}
-                                </button>
-                                <button
-                                    onClick={() => {
-                                        setShowDatePicker(false);
-                                        setSelectedDates([]);
-                                    }}
-                                    className="cancel-reserve-btn"
-                                >
-                                    취소
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                )}
-            </section>
+                        )}
+                    </section>
+                </div>
+            </div>
         </main>
     );
 }

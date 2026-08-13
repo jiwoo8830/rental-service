@@ -11,6 +11,7 @@ interface Product {
   price: number;
   location: string;
   category: string;
+  images?: string[];
 }
 
 export default function Listup() {
@@ -101,19 +102,25 @@ export default function Listup() {
           <div className="item-grid">
             {products.map((item) => (
               <Link href={`/detail?id=${item.id}`} key={item.id} className="item-card">
-                <article key={item.id} className="item-card">
-                  <div className="card-img-box">
-                    <img src="data:image/png;base64,..." alt={item.title} />
+                <div className="card-img-box">
+                  <img
+                    src={item.images && item.images.length > 0 && item.images[0] !== "string" ? item.images[0] : "https://via.placeholder.com/150?text=No+Image"}
+                    alt={item.title}
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.onerror = null;
+                      target.src = "https://via.placeholder.com/150?text=No+Image";
+                    }}
+                  />
+                </div>
+                <div className="card-content">
+                  <h3 className="card-title">{item.title}</h3>
+                  <p className="card-desription">{item.description}</p>
+                  <strong className="card-price">{item.price.toLocaleString()}원 / 일</strong>
+                  <div className="card-footer">
+                    <span className="card-location">위치: {item.location}</span>
                   </div>
-                  <div className="card-content">
-                    <h3 className="card-title">{item.title}</h3>
-                    <p className="card-desription">{item.description}</p>
-                    <strong className="card-price">{item.price.toLocaleString()}원 / 일</strong>
-                    <div className="card-footer">
-                      <span className="card-location">위치: {item.location}</span>
-                    </div>
-                  </div>
-                </article>
+                </div>
               </Link>
             ))}
           </div>

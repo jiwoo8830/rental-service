@@ -33,6 +33,10 @@ const nextConfig: NextConfig = {
         source: "/api/products/:productId",
         destination: "http://13.125.229.197:8080/api/products/:productId"
       },
+      {
+        source: "/api/products/images/:imageId",
+        destination: "http://13.125.229.197:8080/api/products/images/:imageId"
+      },
     ];
   },
 };

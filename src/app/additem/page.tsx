@@ -14,6 +14,8 @@ export default function Additem() {
     const [productStatus, setProductStatus] = useState('');
     const [location, setLocation] = useState('');
 
+    const [imageUrl, setImageUrl] = useState('');
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -36,6 +38,7 @@ export default function Additem() {
                     category,
                     productStatus: "AVAILABLE",
                     location,
+                    images: imageUrl ? [imageUrl] : [],
                 }),
             });
 
@@ -63,6 +66,26 @@ export default function Additem() {
                 <textarea placeholder="물건 설명" className="additem-box" value={description} onChange={(e) => setDescription(e.target.value)} />
                 <input type="number" placeholder="가격" className="additem-box" value={price} onChange={(e) => setPrice(Number(e.target.value))} />
                 <input type="text" placeholder="장소" className="additem-box" value={location} onChange={(e) => setLocation(e.target.value)} />
+
+                <input
+                    type="url"
+                    placeholder="이미지 URL 주소 (예: https://...)"
+                    className="additem-box"
+                    value={imageUrl}
+                    onChange={(e) => setImageUrl(e.target.value)}
+                />
+
+                {imageUrl && (
+                    <div style={{ margin: '10px 0', textAlign: 'center' }}>
+                        <p style={{ fontSize: '12px', color: '#666', marginBottom: '4px' }}>이미지 미리보기</p>
+                        <img
+                            src={imageUrl}
+                            alt="미리보기"
+                            style={{ maxWidth: '200px', maxHeight: '200px', borderRadius: '8px', objectFit: 'cover' }}
+                            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                        />
+                    </div>
+                )}
 
                 <div className="category-ui">
                     <label className="category-title">카테고리</label>

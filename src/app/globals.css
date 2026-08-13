@@ -264,7 +264,103 @@ input:focus {
     color: black;
 }
 
-/* List up css */
+/* ==========================================
+   📦 [공통] 상품 카드 & 목록 그리드 컴포넌트 (listup, myitem 공유)
+   ========================================== */
+
+.item-count {
+    margin-top: 30px;
+    margin-bottom: 16px;
+    color: rgb(175, 175, 175);
+}
+
+.item-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.item-card {
+    border: 1px solid rgb(175, 175, 175);
+    border-radius: 6px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: 0.2s;
+}
+
+.item-card:hover {
+    transform: translateY(-4px);
+}
+
+.card-img-box {
+    width: 100%;
+    height: 200px;
+    background-color: #ECECF0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.card-img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+}
+
+.card-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-desription {
+    color: gray;
+    font-size: 14px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-price {
+    display: flex;
+    margin-top: 8px;
+    font-weight: bold;
+}
+
+.card-price p {
+    margin-left: 3px;
+    color: gray;
+}
+
+.card-footer {
+    display: flex;
+    margin-top: auto;
+    justify-content: space-between;
+    align-items: center;
+    color: gray;
+    padding-top: 8px;
+    font-size: 13px;
+}
+
+
+/* ==========================================
+   🔍 [Listup 전용] 검색바 & 카테고리
+   ========================================== */
 
 .Lu-main {
     max-width: 90%;
@@ -288,7 +384,6 @@ input:focus {
 }
 
 .S-search-icon {
-    font-size: px;
     color: gray;
 }
 
@@ -312,13 +407,14 @@ input:focus {
     display: flex;
     align-items: center;
     gap: 5px;
-    padding: 3px 6px;
+    padding: 6px 12px;
     background: none;
     border: 1px solid rgb(175, 175, 175);
     border-radius: 6px;
+    cursor: pointer;
 }
 
-.categories :hover {
+.categories-btn:hover {
     background-color: #ECECF0;
     transition: 0.2s;
 }
@@ -327,82 +423,10 @@ input:focus {
     font-size: 14px;
 }
 
-.item-count {
-    margin-top: 30px;
-    margin-bottom: 16px;
-    color: rgb(175, 175, 175);
-}
 
-.item-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-}
-
-.item-card {
-    border: 1px solid rgb(175, 175, 175);
-    border-radius: 6px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    transition: 0.2s;
-}
-
-.item-card:hover {
-    transform: translateY(-4px);
-}
-
-.item-img {
-    width: 100%;
-}
-
-.item-img-card {
-    width: 100%;
-    height: 200px;
-    background-color: gray;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-}
-
-.card-content {
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-}
-
-.card-title {
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.card-desription {
-    color: gray;
-}
-
-.card-price {
-    display: flex;
-    margin-top: 5px;
-}
-
-.card-price p {
-    margin-left: 3px;
-    color: gray;
-}
-
-.card-footer {
-    display: flex;
-    margin-top: auto;
-    justify-content: space-between;
-    align-items: center;
-    color: gray;
-    padding-top: 5px;
-    margin-bottom: 5px;
-}
-
-/* ---------myitem---------- */
+/* ==========================================
+   👤 [Myitem 전용] 내가 등록한 물건 헤더 & 버튼
+   ========================================== */
 
 .myitem {
     width: 90%;
@@ -411,7 +435,7 @@ input:focus {
 
 .my-header {
     display: flex;
-    width: 80%;
+    width: 100%;
     margin: 0 auto;
     flex-direction: column;
     margin-top: 110px;
@@ -424,7 +448,7 @@ input:focus {
 
 .my-btn-container {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     margin-top: 10px;
 }
 
@@ -432,11 +456,14 @@ input:focus {
     border: 1px solid black;
     border-radius: 6px;
     background-color: black;
-    padding: 6px;
+    padding: 8px 16px;
     color: white;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
 }
 
-.my-btn :hover {
+.my-btn:hover {
     background-color: gray;
     transition: 0.2s;
 }
@@ -705,34 +732,88 @@ input:focus {
 
 .detail-container {
     width: 80%;
-    margin: 0 auto;
+    max-width: 1000px;
+    margin: 120px auto 40px auto;
+}
+
+.detail-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: stretch;
+}
+
+.detail-img-box {
+    width: 100%;
+    height: 350px;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ddd;
+}
+
+.detail-img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.detail-no-img {
+    color: #888;
+    font-size: 15px;
+}
+
+.detail-content-box {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .product-info {
     display: flex;
     flex-direction: column;
-    margin-top: 100px;
-    gap: 10px;
+    gap: 12px;
 }
 
 .product-info-title {
-    font-size: 30px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.description {
+    font-size: 16px;
+    color: #444;
+    line-height: 1.5;
 }
 
 .price {
-    font-size: 25px
+    font-size: 24px;
+    font-weight: bold;
+    color: #111;
+}
+
+.location {
+    font-size: 15px;
+    color: #666;
 }
 
 .reservation-action {
-    margin-top: 20px;
+    margin-top: 15px;
 }
 
 .reserve-btn {
-    border: 1px solid;
+    border: 1px solid black;
     border-radius: 6px;
     color: white;
     background-color: black;
-    padding: 5px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
     transition: background-color 0.1s;
 }
 
