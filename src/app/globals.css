@@ -666,7 +666,7 @@ input:focus {
 }
 
 .day-btn:hover:not(:disabled) {
-    border-color: #0070f3;
+    border-color: black;
     background-color: #f0f7ff;
 }
 
