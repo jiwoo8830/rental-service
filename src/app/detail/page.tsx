@@ -66,13 +66,16 @@ export default function Detail() {
 
             const result = await response.json();
             const reservationId = result.data?.id || result.id;
+            const totalPrice = product?.price ? product.price * totalDays : 0;
 
             setShowDatePicker(false);
             setDateRange(undefined);
 
             // 결제 페이지로 이동 (reservationId 및 대여 정보 쿼리파라미터 전달)
             if (reservationId) {
-                router.push(`/payment?reservationId=${reservationId}`);
+                router.push(
+                    `/payment?reservationId=${reservationId}&title=${encodeURIComponent(product?.title || '')}&amount=${totalPrice}`
+                );
             } else {
                 router.push(`/payment?productId=${productId}&from=${format(dateRange.from, 'yyyy-MM-dd')}&to=${format(endDate, 'yyyy-MM-dd')}`);
             }
@@ -115,9 +118,9 @@ export default function Detail() {
             <div className="detail-wrapper">
                 <div className="detail-img-box">
                     {product.images && product.images.length > 0 && product.images[0] !== "string" ? (
-                        <img 
-                            src={product.images[0]} 
-                            alt={product.title} 
+                        <img
+                            src={product.images[0]}
+                            alt={product.title}
                             onError={(e) => {
                                 const target = e.target as HTMLImageElement;
                                 target.onerror = null;
