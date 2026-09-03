@@ -50,7 +50,7 @@ export default function Detail() {
 
         try {
             setLoading(true);
-            const response = await fetch(`/api/reservations`, {
+            const response = await fetch(`/api/rental-requests`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
