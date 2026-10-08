@@ -820,3 +820,205 @@ input:focus {
 .reserve-btn:hover {
     background-color: gray;
 }
+
+/* ==========================================
+   📅 [Reservations 전용] 예약 관리 페이지 스타일
+   ========================================== */
+
+.reservations-container {
+    max-width: 900px;
+    margin: 120px auto 60px auto;
+    padding: 0 20px;
+}
+
+.reservations-title {
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 24px;
+    color: #111;
+}
+
+.reservations-tabs {
+    display: flex;
+    gap: 16px;
+    border-bottom: 2px solid #ECECF0;
+    margin-bottom: 24px;
+}
+
+.reservations-tab-btn {
+    padding: 12px 18px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #888;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.reservations-tab-btn:hover {
+    color: #333;
+}
+
+.reservations-tab-btn.active {
+    color: #000;
+    border-bottom: 3px solid #000;
+}
+
+.reservations-card-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.reservations-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #888;
+    background-color: #fafafa;
+    border-radius: 8px;
+    border: 1px dashed #ddd;
+}
+
+.reservation-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #ECECF0;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    transition: box-shadow 0.2s, transform 0.2s;
+    gap: 16px;
+}
+
+.reservation-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
+}
+
+.reservation-card-main {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex: 1;
+}
+
+.reservation-thumb {
+    width: 90px;
+    height: 90px;
+    border-radius: 8px;
+    object-fit: cover;
+    background-color: #ECECF0;
+    flex-shrink: 0;
+}
+
+.reservation-card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.reservation-item-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #111;
+}
+
+.reservation-date,
+.reservation-price,
+.reservation-user-info {
+    font-size: 14px;
+    color: #666;
+}
+
+.reservation-price strong {
+    color: #111;
+    font-weight: 700;
+}
+
+.reservation-card-side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 14px;
+    flex-shrink: 0;
+}
+
+.reservation-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.reservation-badge-pending {
+    background-color: #fff7ed;
+    color: #ea580c;
+    border: 1px solid #ffedd5;
+}
+
+.reservation-badge-approved {
+    background-color: #f0fdf4;
+    color: #16a34a;
+    border: 1px solid #dcfce7;
+}
+
+.reservation-badge-rejected {
+    background-color: #fef2f2;
+    color: #dc2626;
+    border: 1px solid #fee2e2;
+}
+
+.reservation-badge-renting {
+    background-color: #eff6ff;
+    color: #2563eb;
+    border: 1px solid #dbeafe;
+}
+
+.reservation-badge-completed {
+    background-color: #f3f4f6;
+    color: #4b5563;
+    border: 1px solid #e5e7eb;
+}
+
+.reservation-action-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.reservation-approve-btn {
+    padding: 8px 16px;
+    background-color: #000;
+    color: #fff;
+    border: 1px solid #000;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+.reservation-approve-btn:hover {
+    background-color: #333;
+}
+
+.reservation-reject-btn {
+    padding: 8px 16px;
+    background-color: #fff;
+    color: #dc2626;
+    border: 1px solid #dc2626;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.reservation-reject-btn:hover {
+    background-color: #fef2f2;
+}

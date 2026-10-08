@@ -357,9 +357,14 @@ TypeScript, next.js 이용
   - [x] 결제 완료 후 가결제(승인 보류) 결과 페이지 구현
 
 - [ ] **3. 작성자 수락 / 거절 및 알림 (🟡 진행중)**
-  - [ ] 예약 내역/관리 페이지(`src/app/reservations/page.tsx`) 탭 UI 구축 진행 중
+  - [x] 예약 내역/관리 페이지(`src/app/reservations/page.tsx`) 탭 UI & 스타일링 구축 완료 (`globals.css` 통합)
+  - [x] 예약 데이터 Mock 인메모리 스토어 생성 완료 (`src/lib/mockReservations.ts`)
+  - [ ] Mock API Route Handler 3종 작성 진행 중 (사용자 직접 입력 대기)
+    - `src/app/api/rental-requests/route.ts` (예약 요청 생성)
+    - `src/app/api/payment/confirm/route.ts` (가결제 정보 기록)
+    - `src/app/api/reservations/route.ts` (예약 조회 및 수락/거절)
+  - [ ] 예약 관리 페이지(`reservations/page.tsx`) 실제 API 연동
   - [ ] 상대방이 예약 신청 -> 작성자에게 알림 및 메신저 전송
-  - [ ] 작성자가 상대방의 평점/리뷰 확인
   - [ ] 작성자 수락 (결제 승인 완료 및 `대여예정` 전환)
   - [ ] 작성자 거절 (가결제 승인 취소 및 보증금/대여금 환불)
 
